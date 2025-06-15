@@ -13,19 +13,19 @@ df = load_data()
 
 st.title("KPA Personnel Dashboard")
 
-# Sidebar filters (single selection)
+# Sidebar filters
 st.sidebar.header("Filters")
-company_filter = st.sidebar.selectbox("Select Company", options=sorted(df['Company'].unique()))
-location_filter = st.sidebar.selectbox("Select Work Location", options=sorted(df['Work Location'].unique()))
-shift_filter = st.sidebar.selectbox("Select Shift", options=sorted(df['Shift'].unique()))
-status_filter = st.sidebar.selectbox("Select Active Status", options=sorted(df['Active Status'].unique()))
+company_filter = st.sidebar.multiselect("Select Company", options=df['Company'].unique(), default=df['Company'].unique())
+location_filter = st.sidebar.multiselect("Select Work Location", options=df['Work Location'].unique(), default=df['Work Location'].unique())
+shift_filter = st.sidebar.multiselect("Select Shift", options=df['Shift'].unique(), default=df['Shift'].unique())
+status_filter = st.sidebar.multiselect("Select Active Status", options=df['Active Status'].unique(), default=df['Active Status'].unique())
 
 # Apply filters
 filtered_df = df[
-    (df['Company'] == company_filter) &
-    (df['Work Location'] == location_filter) &
-    (df['Shift'] == shift_filter) &
-    (df['Active Status'] == status_filter)
+    (df['Company'].isin(company_filter)) &
+    (df['Work Location'].isin(location_filter)) &
+    (df['Shift'].isin(shift_filter)) &
+    (df['Active Status'].isin(status_filter))
 ]
 
 # KPIs
